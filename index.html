@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vœux Ramadan 2026</title>
+    <style>
+        body {
+            background: radial-gradient(circle, #1a3c0d, #0b1a06);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            margin: auto;
+        }
+        h1 { color: #d4af37; text-shadow: 2px 2px 4px #000; }
+        .nom-affiche { font-size: 2em; color: #fff; margin: 10px 0; font-weight: bold; }
+        .message { font-style: italic; font-size: 1.2em; color: #f0f0f0; }
+        #countdown {
+            font-size: 1.8em;
+            background: #d4af37;
+            color: #1a3c0d;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+        }
+        .btn-partage {
+            background-color: #25D366; /* Couleur WhatsApp */
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .footer { margin-top: 30px; font-size: 0.8em; color: #888; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <p>🌙</p>
+        <h1>Ramadan Mubarak 2026</h1>
+        
+        <div class="nom-affiche" id="displayUsername">Mon Cher Ami</div>
+        
+        <p class="message">"Que ce mois béni t'apporte la paix, la foi et la réussite à toi et ta famille."</p>
+        
+        <div id="countdown">Chargement du compte à rebours...</div>
+
+        <div style="margin-top: 30px; border-top: 1px solid #d4af37; padding-top: 20px;">
+            <h3>Crée ta carte personnalisée :</h3>
+            <input type="text" id="nameInput" placeholder="Entre ton nom ici...">
+            <br>
+            <button class="btn-partage" onclick="generateAndShare()">✨ Créer et Partager sur WhatsApp</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 - Vœux de Paix & Bénédiction
+    </div>
+
+    <script>
+        // 1. Gestion du Nom dans l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get('n');
+        if (user) {
+            document.getElementById('displayUsername').innerText = decodeURIComponent(user);
+        }
+
+        // 2. Compte à rebours pour le Ramadan (estimé au 18 fév 2026)
+        const countDate = new Date("Feb 18, 2026 18:00:00").getTime();
+
+        function ramadanCountdown() {
+            const now = new Date().getTime();
+            const gap = countDate - now;
+
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const d = Math.floor(gap / day);
+            const h = Math.floor((gap % day) / hour);
+            const m = Math.floor((gap % hour) / minute);
+            const s = Math.floor((gap % minute) / second);
+
+            document.getElementById("countdown").innerText = d + "j " + h + "h " + m + "m " + s + "s";
+        }
+        setInterval(ramadanCountdown, 1000);
+
+        // 3. Génération du lien de partage
+        function generateAndShare() {
+            const name = document.getElementById('nameInput').value;
+            if (name === "") {
+                alert("Veuillez entrer un nom !");
+                return;
+            }
+            
+            const currentUrl = window.location.href.split('?')[0];
+            const personalUrl = currentUrl + "?n=" + encodeURIComponent(name);
+            
+            const whatsappMsg = "🌙 " + name + " t'envoie des vœux spéciaux pour le Ramadan 2026 ! Regarde ici : " + personalUrl;
+            window.location.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(whatsappMsg);
+        }
+    </script>
+</body>
+</html>
