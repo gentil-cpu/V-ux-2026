@@ -108,20 +108,30 @@
         }
         setInterval(ramadanCountdown, 1000);
 
-        // 3. Génération du lien de partage
-        function generateAndShare() {
-            const name = document.getElementById('nameInput').value;
-            if (name === "") {
-                alert("Veuillez entrer un nom !");
-                return;
-            }
-            
-            const currentUrl = window.location.href.split('?')[0];
-            const personalUrl = currentUrl + "?n=" + encodeURIComponent(name);
-            
-            const whatsappMsg = "🌙 " + name + " t'envoie des vœux spéciaux pour le Ramadan 2026 ! Regarde ici : " + personalUrl;
-            window.location.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(whatsappMsg);
-        }
-    </script>
+    // 3. Génération du lien de partage
+function generateAndShare() {
+    // Lance la musique au clic sur le bouton
+    const audio = document.getElementById('ramadanMusic');
+    if (audio) { audio.play(); }
+
+    const name = document.getElementById("nameInput").value; // Vérifie l'ID de ton input
+    if (name === "") {
+        alert("Veuillez entrer un nom");
+        return;
+    }
+
+    const currentUrl = window.location.href.split('?')[0];
+    const personalUrl = currentUrl + "?n=" + encodeURIComponent(name);
+    
+    const whatsappMsg = "🌙 " + name + " vous souhaite un Ramadan Mubarak ! Découvrez votre carte ici : " + personalUrl;
+    window.location.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(whatsappMsg);
+}
+</script>
+
+<audio id="ramadanMusic" loop>
+  <source src="https://archive.org/download/maher--zain----anasheed----anashid----anashed-----all--without---music---mp3/09Maher%20Zain%20-%20Forgive%20Me%20_%20Vocals%20Only%20Version%20%28No%20Music%29.mp3" type="audio/mpeg">
+</audio>
+
 </body>
 </html>
+
