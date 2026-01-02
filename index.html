@@ -126,12 +126,36 @@ function generateAndShare() {
     const whatsappMsg = "🌙 " + name + " vous souhaite un Ramadan Mubarak ! Découvrez votre carte ici : " + personalUrl;
     window.location.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(whatsappMsg);
 }
+        
+} // Fermeture de la fonction generateAndShare
+
+// --- CODE DU BOUTON MUSIQUE ---
+const audio = document.getElementById('ramadanMusic');
+let isPlaying = false;
+
+const musicBtn = document.createElement('div');
+musicBtn.innerHTML = '🎵';
+musicBtn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:1000; background:#c5a021; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3); font-size:24px;";
+document.body.appendChild(musicBtn);
+
+musicBtn.addEventListener('click', function() {
+    if (!isPlaying) {
+        audio.play();
+        musicBtn.innerHTML = '⏸️';
+        isPlaying = true;
+    } else {
+        audio.pause();
+        musicBtn.innerHTML = '🎵';
+        isPlaying = false;
+    }
+});
 </script>
 
 <audio id="ramadanMusic" loop>
-  <source src="https://archive.org/download/maher--zain----anasheed----anashid----anashed-----all--without---music---mp3/09Maher%20Zain%20-%20Forgive%20Me%20_%20Vocals%20Only%20Version%20%28No%20Music%29.mp3" type="audio/mpeg">
+    <source src="https://archive.org/download/maher--zain----anasheed----anashid----anashed-----all--without---music---mp3/09Maher%20Zain%20-%20Forgive%20Me%20_%20Vocals%20Only%20Version%20%28No%20Music%29.mp3" type="audio/mpeg">
 </audio>
 
 </body>
 </html>
+
 
