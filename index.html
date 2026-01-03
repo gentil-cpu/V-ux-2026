@@ -67,11 +67,16 @@
         
         <div id="countdown">Chargement du compte à rebours...</div>
 
-        <div style="margin-top: 30px; border-top: 1px solid #d4af37; padding-top: 20px;">
-            <h3>Crée ta carte personnalisée :</h3>
-            <input type="text" id="nameInput" placeholder="Entre ton nom ici...">
-            <br>
-            <button class="btn-partage" onclick="generateAndShare()">✨ Créer et Partager sur WhatsApp</button>
+    <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+    <h3>Crée ta carte personnalisée :</h3>
+    <input type="text" id="nameInput" placeholder="Ton nom ici..." style="padding: 10px; border-radius: 20px; border: 1px solid #ffd700; width: 80%; text-align: center;">
+    <br>
+    <button class="btn-partage" onclick="shareOnWhatsApp()" style="margin-top: 15px; background: #25D366; color: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; cursor: pointer;">
+        🟢 Partager sur WhatsApp
+    </button>
+    </div>
+        
+            
         </div>
     </div>
 
@@ -149,6 +154,14 @@ musicBtn.addEventListener('click', function() {
         isPlaying = false;
     }
 });
+function shareOnWhatsApp() {
+    const typedName = document.getElementById('nameInput').value || "Ami(e)";
+    const shareText = "Regarde ce message de vœux magique pour 2026 ! ✨\n\nDe la part de : " + typedName + "\n\nClique ici : ";
+    const baseUrl = window.location.origin + window.location.pathname;
+    const shareUrl = baseUrl + "?n=" + encodeURIComponent(typedName);
+    window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText + shareUrl));
+}
+        
 </script>
 
 <audio id="ramadanMusic" loop>
