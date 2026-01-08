@@ -33,15 +33,8 @@
             margin: 20px 0;
             font-weight: bold;
         }
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            margin-bottom: 10px;
-        }
         .btn-partage {
-            background-color: #25D366; /* Couleur WhatsApp */
+            background-color: #25D366;
             color: white;
             padding: 15px 25px;
             border: none;
@@ -51,38 +44,39 @@
             text-decoration: none;
             display: inline-block;
             margin-top: 20px;
+            font-weight: bold;
         }
         .footer { margin-top: 30px; font-size: 0.8em; color: #888; }
     </style>
 </head>
 <body> 
-<script src="https://pl28367845.effectivegatecpm.com/c5/50/00/c55000a444b71daa30647afc88592cc8.js"></script>
     <div class="container">
         <p>🌙</p>
         <h1>Ramadan Mubarak 2026</h1>
-        
+
         <div class="nom-affiche" id="displayUsername">Mon Cher Ami</div>
-        
+
         <p class="message">"Que ce mois béni t'apporte la paix, la foi et la réussite à toi et ta famille."</p>
-        
+
         <div id="countdown">Chargement du compte à rebours...</div>
 
-    <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-    <h3>Crée ta carte personnalisée :</h3>
-    <input type="text" id="nameInput" placeholder="Ton nom ici..." style="padding: 10px; border-radius: 20px; border: 1px solid #ffd700; width: 80%; text-align: center;">
-    <br>
-    <button class="btn-partage" onclick="shareOnWhatsApp()" style="margin-top: 15px; background: #25D366; color: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; cursor: pointer;">
-        🟢 Partager sur WhatsApp
-    </button>
-    </div>
-        
-            
+        <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h3>Crée ta carte personnalisée :</h3>
+            <input type="text" id="nameInput" placeholder="Ton nom ici..." style="padding: 10px; border-radius: 20px; border: 1px solid #ffd700; width: 80%; text-align: center;">
+            <br>
+            <button class="btn-partage" onclick="shareOnWhatsApp()">
+                🟢 Partager sur WhatsApp
+            </button>
         </div>
     </div>
 
     <div class="footer">
         © 2026 - Vœux de Paix & Bénédiction
     </div>
+
+    <audio id="ramadanMusic" loop>
+        <source src="https://archive.org/download/maher--zain----anasheed----anashid----anashed-----all--without---music---mp3/09Maher%20Zain%20-%20Forgive%20Me%20_%20Vocals%20Only%20Version%20%28No%20Music%29.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         // 1. Gestion du Nom dans l'URL
@@ -92,7 +86,7 @@
             document.getElementById('displayUsername').innerText = decodeURIComponent(user);
         }
 
-        // 2. Compte à rebours pour le Ramadan (estimé au 18 fév 2026)
+        // 2. Compte à rebours
         const countDate = new Date("Feb 18, 2026 18:00:00").getTime();
 
         function ramadanCountdown() {
@@ -109,66 +103,50 @@
             const m = Math.floor((gap % hour) / minute);
             const s = Math.floor((gap % minute) / second);
 
-            document.getElementById("countdown").innerText = d + "j " + h + "h " + m + "m " + s + "s";
+            if (gap > 0) {
+                document.getElementById("countdown").innerText = d + "j " + h + "h " + m + "m " + s + "s";
+            } else {
+                document.getElementById("countdown").innerText = "Ramadan Mubarak !";
+            }
         }
         setInterval(ramadanCountdown, 1000);
+        ramadanCountdown();
 
-    // 3. Génération du lien de partage
-function generateAndShare() {
-    // Lance la musique au clic sur le bouton
-    const audio = document.getElementById('ramadanMusic');
-    if (audio) { audio.play(); }
+        // 3. Partage WhatsApp
+        function shareOnWhatsApp() {
+            const typedName = document.getElementById('nameInput').value || "Ami(e)";
+            const shareText = "🌙 " + typedName + " vous souhaite un Ramadan Mubarak ! Découvrez votre carte ici : ";
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = baseUrl + "?n=" + encodeURIComponent(typedName);
+            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText + shareUrl));
+        }
 
-    const name = document.getElementById("nameInput").value; // Vérifie l'ID de ton input
-    if (name === "") {
-        alert("Veuillez entrer un nom");
-        return;
-    }
+        // 4. Lancer la musique au premier clic
+        document.addEventListener('click', function() {
+            const audio = document.getElementById('ramadanMusic');
+            audio.play().catch(e => console.log("Lecture bloquée"));
+        }, { once: true });
 
-    const currentUrl = window.location.href.split('?')[0];
-    const personalUrl = currentUrl + "?n=" + encodeURIComponent(name);
-    
-    const whatsappMsg = "🌙 " + name + " vous souhaite un Ramadan Mubarak ! Découvrez votre carte ici : " + personalUrl;
-    window.location.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(whatsappMsg);
-}
-        
-} // Fermeture de la fonction generateAndShare
-
-// --- CODE DU BOUTON MUSIQUE ---
-const audio = document.getElementById('ramadanMusic');
-let isPlaying = false;
-
-const musicBtn = document.createElement('div');
-musicBtn.innerHTML = '🎵';
-musicBtn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:1000; background:#c5a021; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3); font-size:24px;";
-document.body.appendChild(musicBtn);
-
-musicBtn.addEventListener('click', function() {
-    if (!isPlaying) {
-        audio.play();
-        musicBtn.innerHTML = '⏸️';
-        isPlaying = true;
-    } else {
-        audio.pause();
+        // Bouton Musique flottant
+        const audio = document.getElementById('ramadanMusic');
+        let isPlaying = false;
+        const musicBtn = document.createElement('div');
         musicBtn.innerHTML = '🎵';
-        isPlaying = false;
-    }
-});
-function shareOnWhatsApp() {
-    const typedName = document.getElementById('nameInput').value || "Ami(e)";
-    const shareText = "Regarde ce message de vœux magique pour 2026 ! ✨\n\nDe la part de : " + typedName + "\n\nClique ici : ";
-    const baseUrl = window.location.origin + window.location.pathname;
-    const shareUrl = baseUrl + "?n=" + encodeURIComponent(typedName);
-    window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText + shareUrl));
-}
-        
-</script>
+        musicBtn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:1000; background:#d4af37; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3); font-size:24px;";
+        document.body.appendChild(musicBtn);
 
-<audio id="ramadanMusic" loop>
-    <source src="https://archive.org/download/maher--zain----anasheed----anashid----anashed-----all--without---music---mp3/09Maher%20Zain%20-%20Forgive%20Me%20_%20Vocals%20Only%20Version%20%28No%20Music%29.mp3" type="audio/mpeg">
-</audio>
-
+        musicBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.innerHTML = '⏸️';
+            } else {
+                audio.pause();
+                musicBtn.innerHTML = '🎵';
+            }
+        });
+    </script>
 </body>
 </html>
+
 
 
